@@ -8,7 +8,7 @@
 	<li><a href="filmes.html">Filmes</a></li>
 </ul>
 <main id="categoria">
-	<form method="get">
+	<form method="get" action="?editar=<?php echo $_GET['editar'];?>">
 		<h2>Categorias</h2>
 		<input type="text" name="categoria" placeholder="Nome Categoria...">
 		<button name="salvar">Salvar</button>
@@ -16,14 +16,33 @@
 </main>
 
 <?php
-
+		/*Inserir dados na tabela categoria*/
 	if(isset($_GET['salvar'])){
 		$nomeCategoria = $_GET['categoria'];
-	}
-    echo $sql = "INSERT INTO categoria (nome) values ($nomeCategoria)";
 
-	if($conn->query($sql)){
-		echo "gravou com sucesso";
-	}else{
-		echo "deu ruim";
+		 $sql = "INSERT INTO categoria (nome) values ('$nomeCategoria')";
+
+		 if($conn->query($sql)){
+		 	echo "Gravou com sucessooooooooooo!";
+		 }else {
+		 	echo "Deu ruim";
+		 }
 	}
+
+	/*Buscar dados da tabela categoria*/
+	$sql = "SELECT * FROM categoria";
+	$resultado = $conn->query($sql);
+
+	while ($obj = $resultado->fetch_assoc()) {
+		echo $obj['id']." - ".$obj['nome'].
+		"<a href='?editar=".$obj['id']."'>Editar</a><br>";
+
+	}
+	
+	/*Editar uma categoria*/
+	if(isset($_GET['editar']) && isset($_GET['salvar'])){
+	    echo "entrou";
+	}
+
+
+ ?>
